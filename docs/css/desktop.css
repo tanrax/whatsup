@@ -1,0 +1,20 @@
+@import 'vendors/normalize.css';
+/* * Remove initial styles <ul>
+ * *
+ * * Examples: @include ulReset()
+ * */
+* {
+  font-family: "Helvetica", Arial, sans-serif;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+/*# sourceMappingURL=desktop.css.map */
