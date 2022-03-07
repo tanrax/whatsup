@@ -3,28 +3,17 @@
     <h1>Registro</h1>
     <section>
       <form class="signup__form">
-        <label class="signup__label">
-          Email
-          <input class="signup__input" type="email" name="email" placeholder="Tu correo...">
-          <span class="signup__error">No contiene un formato valido</span>
-        </label>
-        <label class="signup__label">
-          Nombre
-          <input class="signup__input" type="text" name="nombre" placeholder="Tu nombre...">
-          <span class="signup__error">Campo obligatorio</span>
-        </label>
-        <label class="signup__label">
-          Contraseña
-          <input class="signup__input" type="password" name="password">
-        </label>
-        <label class="signup__label">
-          Repìte tu contraseña
-          <input class="signup__input" type="password" name="password-repeat">
-          <span class="signup__error">Las contraseñas son obligatorias y deben coincidir</span>
-        </label>
-        <p>
-          <input class="signup__input" type="submit" value="Registrarme">
-        </p>
+        <CustomInput
+            label="Nombre"
+            placeholcer="Dime tu nombre"
+            type="text"
+            :showErrors="true"
+            :errorsList="['Nombre obligatorio']"
+        />
+        <CustomInput label="Email" placeholcer="Dime tu email" type="email" />
+        <CustomInput label="Contraseña" type="password" />
+        <CustomInput label="Repite contraseña" type="password" />
+        <CustomInput type="submit" value="Registrarme" />
       </form>
     </section>
     <section>
@@ -36,9 +25,12 @@
 </template>
 
 <script>
+import CustomInput from "@/components/CustomInput";
+
 export default {
   name: 'SignupView',
   components: {
+    CustomInput
   }
 }
 </script>
