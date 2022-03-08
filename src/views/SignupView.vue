@@ -86,8 +86,14 @@ export default {
       }
 
       // Email
+      if (!/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(this.email)) {
+        this.emailError = true;
+      }
 
       // Password
+      if (this.password.trim().length === 0 || this.password != this.password2) {
+        this.passwordError = true;
+      }
 
       if (!this.nombreError &&
           !this.emailError &&
