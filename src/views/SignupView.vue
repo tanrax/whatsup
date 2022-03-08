@@ -7,13 +7,38 @@
             label="Nombre"
             placeholcer="Dime tu nombre"
             type="text"
-            :showErrors="true"
-            :errorsList="['Nombre obligatorio']"
+            v-model="nombre"
+            :showErrors="nombreError"
+            :errorsList="['El nombre debe tener más de 4 caracteres']"
         />
-        <CustomInput label="Email" placeholcer="Dime tu email" type="email" />
-        <CustomInput label="Contraseña" type="password" />
-        <CustomInput label="Repite contraseña" type="password" />
-        <CustomInput type="submit" value="Registrarme" />
+        <CustomInput
+            label="Email"
+            placeholcer="Dime tu email"
+            type="email"
+            :showErrors="emailError"
+            v-model="email"
+            :errorsList="['Email obligatorio', 'No contiene un formato válido']"
+        />
+        <CustomInput
+            label="Contraseña"
+            placeholcer="Escribe una clave dificil"
+            type="password"
+            :showErrors="passwordError"
+            v-model="password"
+            :errorsList="['Contraseña obligatoria', 'Las constraseñas no son igual']"
+        />
+        <CustomInput
+            label="Repite contraseña"
+            placeholcer="Repite contraseña"
+            type="password"
+            :showErrors="passwordError"
+            v-model="password2"
+        />
+        <CustomButton
+            @click.prevent="validar"
+            type="submit"
+            text="Registrarme"
+        />
       </form>
     </section>
     <section>
@@ -26,11 +51,51 @@
 
 <script>
 import CustomInput from "@/components/CustomInput";
+import CustomButton from "@/components/CustomButton";
+
+const limitNombre = 4;
 
 export default {
   name: 'SignupView',
+  data() {
+   return {
+     nombre: '',
+     nombreError: false,
+     email: '',
+     emailError: false,
+     password: '',
+     password2: '',
+     passwordError: false
+   }
+  },
   components: {
-    CustomInput
+    CustomInput,
+    CustomButton
+  },
+  methods: {
+    validar: function () {
+      // Limpiar viejas validaciones
+      this.nombreError = false;
+      this.emailError = false;
+      this.passwordError = false;
+
+      // Nombre
+      // Limite de caracteres a limitNombre
+      if (this.nombre.trim().length < limitNombre) {
+        this.nombreError = true;
+      }
+
+      // Email
+
+      // Password
+
+      if (!this.nombreError &&
+          !this.emailError &&
+          !this.passwordError
+      ) {
+        alert('Todo bien')
+      }
+    }
   }
 }
 </script>
