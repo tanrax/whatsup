@@ -52,11 +52,15 @@
 <script>
 import CustomInput from "@/components/CustomInput";
 import CustomButton from "@/components/CustomButton";
+import NProgress from "nprogress"
 
 const limitNombre = 4;
 
 export default {
   name: 'SignupView',
+  mounted() {
+    console.log(process.env.VUE_APP_URL_API)
+  },
   data() {
    return {
      nombre: '',
@@ -99,8 +103,13 @@ export default {
           !this.emailError &&
           !this.passwordError
       ) {
-        alert('Todo bien')
+        // Save data
+        this.createUser();
       }
+    },
+    createUser: async function () {
+      NProgress.start();
+
     }
   }
 }
