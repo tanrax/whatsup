@@ -2,6 +2,7 @@
   <div class="home">
     <h1>Hola, bienvenido a tu red</h1>
     <button @click="logout">Salir</button>
+    <NewMessage />
   </div>
 </template>
 
@@ -9,6 +10,7 @@
 //import NProgress from "nprogress"
 import supabase from "@/mixins/supabase.js"
 import privateLogin from "@/mixins/private.js";
+import NewMessage from "@/components/NewMessage";
 
 export default {
   name: 'HomeView',
@@ -20,6 +22,7 @@ export default {
   mounted() {
   },
   components: {
+    NewMessage
   },
   methods: {
     logout: async function () {
