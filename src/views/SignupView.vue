@@ -53,14 +53,15 @@
 import CustomInput from "@/components/CustomInput";
 import CustomButton from "@/components/CustomButton";
 import NProgress from "nprogress"
+import supabase from "@/mixins/supabase.js"
 
 const limitNombre = 4;
 
 export default {
   name: 'SignupView',
   mounted() {
-    console.log(process.env.VUE_APP_URL_API)
   },
+  mixins: [supabase],
   data() {
    return {
      nombre: '',
@@ -109,7 +110,25 @@ export default {
     },
     createUser: async function () {
       NProgress.start();
-
+      const { user, session, error } = await this.supabase.auth.signUp({
+        email: this.email,
+        password: this.password,
+      })
+      if (user === null) {
+        // Supabase devuelve un error
+        alert(error.message);
+      } else {
+        // Guardamos el nombre
+        await this.supabase
+            .from('social_network-profile')
+            .insert([
+              { name: this.nombre, user_id: session.user.id }
+            ])
+        // Cambiamos a la vista de Login
+        this.$router.push({name: 'login', query: {signup: true}});
+      }
+      NProgress.done()
+      return session;
     }
   }
 }
