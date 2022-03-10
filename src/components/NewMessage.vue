@@ -48,7 +48,7 @@ export default {
       const { error } = await this.supabase
         .from('social_network-posts')
         .insert([
-          {user_id: this.userID, text: this.message },
+          { user_id: this.userID, text: this.message },
         ]);
       if (error) {
         alert(error.message);

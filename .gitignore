@@ -2,3 +2,4 @@
 node_modules/
 public/css/
 package-lock.json
+public/css/desktop.css
