@@ -16,7 +16,7 @@
           v-model="password"
       />
       <CustomButton
-          @click.prevent="login"
+          @do-click="login"
           type="submit"
           text="Entrar"
       />

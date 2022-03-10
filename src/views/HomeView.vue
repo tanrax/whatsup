@@ -2,7 +2,7 @@
   <div class="home">
     <h1>Hola, bienvenido a tu red</h1>
     <button @click="logout">Salir</button>
-    <NewMessage />
+    <NewMessage :user-ID="myID" />
   </div>
 </template>
 
@@ -17,9 +17,11 @@ export default {
   mixins: [supabase, privateLogin],
   data() {
     return {
+      myID: ""
     }
   },
-  mounted() {
+  async mounted() {
+    this.myID = await this.supabase.auth.user().id;
   },
   components: {
     NewMessage
