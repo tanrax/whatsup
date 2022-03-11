@@ -35,7 +35,7 @@
             v-model="password2"
         />
         <CustomButton
-            @click.prevent="validar"
+            @do-click="validar"
             type="submit"
             text="Registrarme"
         />
