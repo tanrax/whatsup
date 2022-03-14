@@ -1,10 +1,6 @@
 <template>
   <div class="home container-padding">
     <h1>Hola, bienvenido a tu red</h1>
-    <CustomButton
-      text="Salir"
-      @do-click="logout"
-    />
     <!-- Mensajes -->
     <div class="home__posts">
       <SinglePost
@@ -83,10 +79,6 @@ export default {
     getLastPage: function () {
 
       return Math.ceil(this.countMessages / this.numMessagePage);
-    },
-    logout: async function () {
-      await this.supabase.auth.signOut()
-      this.checkLogin()
     },
     getCountMessages: async function () {
       const { data, error } = await this.supabase
