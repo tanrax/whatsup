@@ -5,12 +5,13 @@
       text="Salir"
       @do-click="logout"
     />
+    <!-- Mensajes -->
     <div class="home__posts">
       <SinglePost
         v-for="(post, index) in posts"
         :key="index"
-        userName="pepe"
-        :date="post.created_at"
+        :userName="getUserName(post.user_id)"
+        :date="getFormatDate(post.created_at)"
         :id="post.id"
         :message="post.text"
         :is-my-post="isMyPost(post.user_id)"
@@ -34,6 +35,9 @@
 
 <script>
 //import NProgress from "nprogress"
+import { formatRelative } from 'date-fns'
+import { es } from 'date-fns/locale'
+
 // mixin
 import supabase from "@/mixins/supabase.js"
 import privateLogin from "@/mixins/private.js";
@@ -49,7 +53,9 @@ export default {
   data() {
     return {
       myID: "",
+      userName: "",
       posts: [],
+      profiles: [],
       numMessagePage: 5,
       page: 1,
       countMessages: 0
@@ -57,6 +63,7 @@ export default {
   },
   async mounted() {
     this.myID = await this.supabase.auth.user().id;
+    this.getUsers();
     this.getMessages();
     this.refrescoAutomaticoMensajes();
   },
@@ -66,7 +73,15 @@ export default {
     CustomButton
   },
   methods: {
+    getFormatDate: function (date) {
+      return formatRelative(new Date(date), new Date(), { locale: es });
+    },
+    getUserName: function (userId) {
+      return this.profiles
+          .filter(profile => profile.user_id === userId)[0]?.name;
+    },
     getLastPage: function () {
+
       return Math.ceil(this.countMessages / this.numMessagePage);
     },
     logout: async function () {
@@ -88,7 +103,7 @@ export default {
       const end = start + this.numMessagePage - 1;
       const { data, error } = await this.supabase
         .from('social_network-posts')
-        .select("*")
+        .select('*')
         .order('created_at', { ascending: false })
         .range(start, end);
       // Obtiene la cuenta de mensajes sin rangos
@@ -107,7 +122,7 @@ export default {
       if (error) {
         alert(error.message);
       } else {
-        console.log(data);
+        this.profiles = data;
       }
     },
     isMyPost: function (postOwnerID) {
