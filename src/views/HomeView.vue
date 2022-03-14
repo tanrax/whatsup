@@ -9,10 +9,25 @@
       <SinglePost
         v-for="(post, index) in posts"
         :key="index"
+        userName="pepe"
+        :date="post.created_at"
+        :id="post.id"
         :message="post.text"
         :is-my-post="isMyPost(post.user_id)"
       />
     </div>
+    <!-- Paginador -->
+    <CustomButton
+        @do-click="page = page - 1"
+        text="Atras"
+        v-if="page != 1"
+    />
+    <CustomButton
+        @do-click="page = page + 1"
+        text="Siguiente"
+        v-if="page < getLastPage()"
+    />
+    <!-- Nuevo mensaje -->
     <NewMessage :user-ID="myID" />
   </div>
 </template>
@@ -34,12 +49,16 @@ export default {
   data() {
     return {
       myID: "",
-      posts: []
+      posts: [],
+      numMessagePage: 5,
+      page: 1,
+      countMessages: 0
     }
   },
   async mounted() {
     this.myID = await this.supabase.auth.user().id;
     this.getMessages();
+    this.refrescoAutomaticoMensajes();
   },
   components: {
     NewMessage,
@@ -47,14 +66,34 @@ export default {
     CustomButton
   },
   methods: {
+    getLastPage: function () {
+      return Math.ceil(this.countMessages / this.numMessagePage);
+    },
     logout: async function () {
       await this.supabase.auth.signOut()
       this.checkLogin()
     },
+    getCountMessages: async function () {
+      const { data, error } = await this.supabase
+          .from('social_network-posts')
+          .select("*");
+      if (error) {
+        alert(error.message);
+      } else {
+        this.countMessages = data.length;
+      }
+    },
     getMessages: async function () {
+      const start = (this.page - 1) * this.numMessagePage;
+      const end = start + this.numMessagePage - 1;
       const { data, error } = await this.supabase
         .from('social_network-posts')
-        .select("*");
+        .select("*")
+        .order('created_at', { ascending: false })
+        .range(start, end);
+      // Obtiene la cuenta de mensajes sin rangos
+      this.getCountMessages();
+      // Errores
       if (error) {
         alert(error.message);
       } else {
@@ -73,6 +112,19 @@ export default {
     },
     isMyPost: function (postOwnerID) {
       return this.myID === postOwnerID;
+    },
+    refrescoAutomaticoMensajes: function () {
+      this.supabase
+          .from('social_network-posts')
+          .on('*', () => {
+            this.getMessages();
+          })
+          .subscribe()
+    }
+  },
+  watch: {
+    page: function () {
+      this.getMessages();
     }
   }
 }

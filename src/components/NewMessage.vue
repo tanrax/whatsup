@@ -54,7 +54,6 @@ export default {
         alert(error.message);
       } else {
         this.message = "";
-        alert("ok, mensaje enviado");
       }
     }
   }
