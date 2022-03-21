@@ -1,6 +1,7 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   transpileDependencies: true,
+
   pwa: {
     name: 'Whatup',
     themeColor: 'tomato',
@@ -10,5 +11,6 @@ module.exports = defineConfig({
     }
   },
 
-  outputDir: 'docs'
+  outputDir: 'docs',
+  publicPath: '/whatsup/'
 })
