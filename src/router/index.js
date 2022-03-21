@@ -3,6 +3,8 @@ import LoginView from '../views/LoginView.vue'
 import SignupView from '../views/SignupView.vue'
 import HomeView from "@/views/HomeView";
 import SearchView from "@/views/SearchView";
+import UsersListView from "@/views/UsersListView";
+import PrivateChat from "@/views/PrivateChat";
 
 const routes = [
   {
@@ -16,9 +18,19 @@ const routes = [
     component: SignupView
   },
   {
-    path: '/home/',
+    path: '/clase/',
     name: 'home',
     component: HomeView
+  },
+  {
+    path: '/usuarios/',
+    name: 'usersList',
+    component: UsersListView
+  },
+  {
+    path: '/chat/',
+    name: 'privateChat',
+    component: PrivateChat
   },
   {
     path: '/buscar/',

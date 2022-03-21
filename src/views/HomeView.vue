@@ -1,5 +1,5 @@
 <template>
-  <div class="home container-padding">
+  <div class="home">
     <h1>Hola, bienvenido a tu red</h1>
     <!-- Mensajes -->
     <div class="home__posts">
@@ -51,7 +51,6 @@ export default {
       myID: "",
       userName: "",
       posts: [],
-      profiles: [],
       numMessagePage: 5,
       page: 1,
       countMessages: 0
@@ -59,7 +58,6 @@ export default {
   },
   async mounted() {
     this.myID = await this.supabase.auth.user().id;
-    this.getUsers();
     this.getMessages();
     this.refrescoAutomaticoMensajes();
   },
@@ -73,7 +71,7 @@ export default {
       return formatRelative(new Date(date), new Date(), { locale: es });
     },
     getUserName: function (userId) {
-      return this.profiles
+      return this.$store.state.profiles
           .filter(profile => profile.user_id === userId)[0]?.name;
     },
     getLastPage: function () {
@@ -105,16 +103,6 @@ export default {
         alert(error.message);
       } else {
         this.posts = data;
-      }
-    },
-    getUsers: async function () {
-      const { data, error } = await this.supabase
-        .from('social_network-profile')
-        .select("name, user_id");
-      if (error) {
-        alert(error.message);
-      } else {
-        this.profiles = data;
       }
     },
     isMyPost: function (postOwnerID) {

@@ -6,7 +6,12 @@
         <li
             v-if="$store.state.isLogin"
         >
-          <router-link :to="{ 'name': 'home' }" class="button">Home</router-link>
+          <router-link :to="{ 'name': 'home' }" class="button">Clase</router-link>
+        </li>
+        <li
+            v-if="$store.state.isLogin"
+        >
+          <router-link :to="{ 'name': 'usersList' }" class="button">Usuarios</router-link>
         </li>
         <li
             v-if="$store.state.isLogin"
@@ -42,6 +47,7 @@ export default {
   },
   mounted: async function() {
     this.$store.state.isLogin = await this.isLogin();
+    this.getProfiles();
   },
   methods: {
     logout: async function () {
@@ -49,7 +55,16 @@ export default {
       this.checkLogin()
       this.$store.state.isLogin = false;
     },
-
+    getProfiles: async function () {
+      const { data, error } = await this.supabase
+          .from('social_network-profile')
+          .select("name, user_id");
+      if (error) {
+        alert(error.message);
+      } else {
+        this.$store.state.profiles = data;
+      }
+    },
   }
 }
 </script>
