@@ -10,6 +10,9 @@ export default {
             if (await this.supabase.auth.user()?.aud !== 'authenticated') {
                 this.$router.push({name: 'login'});
             }
+        },
+        isLogin: async function () {
+           return await this.supabase.auth.user()?.aud === 'authenticated';
         }
     }
 }

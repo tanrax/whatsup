@@ -17,11 +17,9 @@
       <SinglePost
           v-for="(post, index) in posts"
           :key="index"
-          :userName="getUserName(post.user_id)"
-          :date="getFormatDate(post.created_at)"
+          :date="post.created_at"
           :id="post.id"
           :message="post.text"
-          :is-my-post="isMyPost(post.user_id)"
       />
     </div>
   </div>
@@ -31,7 +29,6 @@
 import CustomInput from "@/components/CustomInput";
 import CustomButton from "@/components/CustomButton";
 import SinglePost from "@/components/SinglePost";
-//import NProgress from "nprogress"
 import supabase from "@/mixins/supabase.js"
 
 export default {
@@ -39,7 +36,8 @@ export default {
   mixins: [supabase],
   data() {
     return {
-      search: ''
+      search: '',
+      posts: []
     }
   },
   mounted() {
@@ -50,8 +48,12 @@ export default {
     SinglePost
   },
   methods: {
-    buscar: function () {
-      return true;
+    buscar: async function () {
+      const { data} = await this.supabase
+          .from('social_network-posts')
+          .select('text')
+          .ilike('text', `%${this.search}%`)
+      this.posts = data;
     }
   }
 }

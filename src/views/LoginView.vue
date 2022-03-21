@@ -61,6 +61,8 @@ export default {
       } else {
         // Logeado
         this.$router.push({name: 'home'});
+        // Save login
+        this.$store.state.isLogin = true;
       }
       NProgress.done()
       return session;

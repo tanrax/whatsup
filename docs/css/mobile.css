@@ -337,6 +337,90 @@ template {
   display: none;
 }
 
+/* Make clicks pass-through */
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  background: #29d;
+  position: fixed;
+  z-index: 1031;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+}
+
+/* Fancy blur effect */
+#nprogress .peg {
+  display: block;
+  position: absolute;
+  right: 0px;
+  width: 100px;
+  height: 100%;
+  box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+  opacity: 1;
+  -webkit-transform: rotate(3deg) translate(0px, -4px);
+  -ms-transform: rotate(3deg) translate(0px, -4px);
+  transform: rotate(3deg) translate(0px, -4px);
+}
+
+/* Remove these to get rid of the spinner */
+#nprogress .spinner {
+  display: block;
+  position: fixed;
+  z-index: 1031;
+  top: 15px;
+  right: 15px;
+}
+
+#nprogress .spinner-icon {
+  width: 18px;
+  height: 18px;
+  box-sizing: border-box;
+  border: solid 2px transparent;
+  border-top-color: #29d;
+  border-left-color: #29d;
+  border-radius: 50%;
+  -webkit-animation: nprogress-spinner 400ms linear infinite;
+  animation: nprogress-spinner 400ms linear infinite;
+}
+
+.nprogress-custom-parent {
+  overflow: hidden;
+  position: relative;
+}
+
+.nprogress-custom-parent #nprogress .spinner,
+.nprogress-custom-parent #nprogress .bar {
+  position: absolute;
+}
+
+@-webkit-keyframes nprogress-spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes nprogress-spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.text-s {
+  font-size: 0.8rem;
+}
+
+.text-semi-bold {
+  font-weight: 600;
+}
+
 /* * Remove initial styles <ul>
  * *
  * * Examples: @include ulReset()
@@ -348,11 +432,119 @@ template {
 body {
   padding: 0;
   margin: 0;
+  padding: 1rem;
+  padding-bottom: 2.5rem;
 }
 
 .container {
   max-width: 40rem;
   margin: 0 auto;
+}
+
+.container-padding {
+  padding: 3rem 1rem;
+}
+
+a {
+  color: #38c1ff;
+  text-decoration: none;
+}
+a:hover {
+  filter: brightness(50%);
+}
+
+button:disabled {
+  opacity: 0.25;
+}
+
+.button {
+  display: inline-block;
+  border: 0;
+  padding: 0.6rem;
+  background-color: #38c1ff;
+  color: #000;
+}
+.button:hover {
+  filter: brightness(110%);
+}
+
+.input {
+  margin: 1rem 0;
+}
+.input__label {
+  display: flex;
+  flex-direction: column;
+}
+.input__field {
+  padding: 0.4rem;
+  border-radius: 0;
+  border: 1px solid #000;
+}
+.input__field:focus {
+  outline: none;
+}
+.input__field:hover {
+  filter: brightness(120%);
+}
+.input__error {
+  border-color: tomato;
+}
+.input__errors {
+  color: tomato;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.input__errors li {
+  margin-top: 1rem;
+}
+
+.single-post {
+  display: grid;
+  row-gap: 0.75rem;
+  padding: 1rem;
+  background-color: rgba(56, 193, 255, 0.25);
+  border-radius: 1.25rem 1.25rem 1.25rem 0;
+  width: 75%;
+}
+.single-post.my {
+  background-color: rgba(128, 0, 128, 0.25);
+  border-radius: 1.25rem 1.25rem 0 1.25rem;
+  margin-left: auto;
+}
+.single-post p {
+  margin: unset;
+}
+.single-post__header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 0.5rem;
+}
+.single-post .button {
+  width: max-content;
+  margin-left: auto;
+}
+
+.nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: tomato;
+}
+.nav__ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.home__posts {
+  display: grid;
+  row-gap: 2rem;
+  margin-top: 4rem;
+  margin-bottom: 4rem;
 }
 
 /*# sourceMappingURL=mobile.css.map */
