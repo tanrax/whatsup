@@ -67,6 +67,7 @@ export default {
     CustomButton
   },
   methods: {
+
     getFormatDate: function (date) {
       return formatRelative(new Date(date), new Date(), { locale: es });
     },
@@ -95,6 +96,7 @@ export default {
         .from('social_network-posts')
         .select('*')
         .order('created_at', { ascending: false })
+        .eq('is_public', true)
         .range(start, end);
       // Obtiene la cuenta de mensajes sin rangos
       this.getCountMessages();

@@ -36,6 +36,11 @@ export default {
   },
   props: {
     userID: String,
+    isPublic: {
+      type: Boolean,
+      default: true
+    },
+    targetUser: String
   },
   mixins: [supabase],
   computed: {
@@ -48,7 +53,12 @@ export default {
       const { error } = await this.supabase
         .from('social_network-posts')
         .insert([
-          { user_id: this.userID, text: this.message },
+          {
+            user_id: this.userID,
+            text: this.message,
+            is_public: this.isPublic,
+            user_target: this.targetUser
+          },
         ]);
       if (error) {
         alert(error.message);
